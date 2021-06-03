@@ -16,6 +16,8 @@ product:
     NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
 #修改调用超时时间
 feign:
+  hystrix:
+    enabled: true
   client:
     config:
       default:
