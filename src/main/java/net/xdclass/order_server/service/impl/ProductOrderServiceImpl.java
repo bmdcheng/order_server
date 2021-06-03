@@ -24,11 +24,12 @@ public class ProductOrderServiceImpl  implements ProductOrderService {
 
     @Override
     public ProductOrder save(int userId, int productId) {
-      //  Object obj=restTemplate.getForObject("http://product-service/api/v1/product/findById?id="+productId,Object.class);
+        Object obj=restTemplate.getForObject("http://product-service/api/v1/product/findById?id="+productId,Object.class);
+        System.out.println("Data-From-ribbon"+obj);
 
         String str = productClient.findById(productId);
 
-        System.out.println(str);
+        System.out.println("Data-from-openfeign"+str);
 
         ProductOrder productOrder = new ProductOrder();
         productOrder.setCreateTime(new Date());
