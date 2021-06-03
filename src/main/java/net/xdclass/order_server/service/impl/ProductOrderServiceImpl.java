@@ -1,8 +1,10 @@
 package net.xdclass.order_server.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import net.xdclass.order_server.domain.ProductOrder;
 import net.xdclass.order_server.service.ProductClient;
 import net.xdclass.order_server.service.ProductOrderService;
+import net.xdclass.order_server.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -24,16 +26,17 @@ public class ProductOrderServiceImpl  implements ProductOrderService {
 
     @Override
     public ProductOrder save(int userId, int productId) {
-        Object obj=restTemplate.getForObject("http://product-service/api/v1/product/findById?id="+productId,Object.class);
-        System.out.println("Data-From-ribbon"+obj);
+        //Object obj=restTemplate.getForObject("http://product-service/api/v1/product/findById?id="+productId,Object.class);
+        //System.out.println("Data-From-ribbon"+obj);
 
         String str = productClient.findById(productId);
 
-        System.out.println("Data-from-openfeign"+str);
+        //System.out.println("Data-from-openfeign"+str);
+        JSONObject jsonObject = JsonUtil.convStrToJson(str);
 
         ProductOrder productOrder = new ProductOrder();
         productOrder.setCreateTime(new Date());
-        productOrder.setUserId(userId+"");
+        productOrder.setUserId(userId+"--"+jsonObject.getString("name"));
         productOrder.setUserName("tom");
 
         return productOrder;

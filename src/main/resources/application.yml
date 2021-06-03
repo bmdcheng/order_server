@@ -10,3 +10,14 @@ spring:
   application:
     name: order-service
 
+#设置负载均衡策略
+product:
+  ribbon:
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+#修改调用超时时间
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 2000
+        readTimeout: 11000
