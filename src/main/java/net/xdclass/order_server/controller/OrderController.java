@@ -45,7 +45,11 @@ public class OrderController {
         String saveOrderKey = "save-order";
 
         String sendValue = stringRedisTemplate.opsForValue().get(saveOrderKey);
-
+        /**
+         * 熔断告警机制：在redis中存储具有时效性的key,然后通过这个key是否存在来进行短信告警
+         * 1.并发高的时候这样可能会多发短信，要采用锁
+         * 2.也可以在每个服务本地安装一个redis，在发送短信的时附上每个服务的IP，更加便于排查错误
+         */
        new Thread(()->{
            if(StringUtils.isBlank(sendValue)){
                System.out.println("紧急短信，用户下单失败，请立刻查找原因");
