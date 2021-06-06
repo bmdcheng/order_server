@@ -23,3 +23,12 @@ feign:
       default:
         connectTimeout: 2000
         readTimeout: 11000
+#暴露仪表盘的路径出来，因为新版的springboot默认不暴露了
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+hystrix:
+  dashboard:
+    proxy-stream-allow-list: "localhost"

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -29,7 +30,14 @@ public class OrderController {
 
     @RequestMapping("save")
     @HystrixCommand(fallbackMethod = "saveOrderFail")
-    public Object save(@RequestParam("user_id")int userId,@RequestParam("product_id")int productId){
+    public Object save(HttpServletRequest request, @RequestParam("user_id")int userId, @RequestParam("product_id")int productId){
+        String token=request.getHeader("token");
+        String cookie=request.getHeader("cookie");
+
+        System.out.println("token="+token);
+
+        System.out.println("cookie="+cookie);
+
         Map<String, Object> data = new HashMap<>();
 
         data.put("code",0);
@@ -38,7 +46,7 @@ public class OrderController {
     };
 
     //方法签名要和api一致
-    public Object saveOrderFail(int userId,int productId){
+    public Object saveOrderFail(HttpServletRequest request,int userId,int productId){
         Map<String, Object> msg = new HashMap<>();
 
         //监控报警
