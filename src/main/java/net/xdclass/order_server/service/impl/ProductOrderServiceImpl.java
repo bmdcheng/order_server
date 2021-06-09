@@ -5,6 +5,8 @@ import net.xdclass.order_server.domain.ProductOrder;
 import net.xdclass.order_server.service.ProductClient;
 import net.xdclass.order_server.service.ProductOrderService;
 import net.xdclass.order_server.util.JsonUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -18,6 +20,8 @@ import java.util.Date;
 @Service
 public class ProductOrderServiceImpl  implements ProductOrderService {
 
+    Logger logger= LoggerFactory.getLogger(getClass());
+
     @Autowired
     private RestTemplate restTemplate;
 
@@ -28,6 +32,8 @@ public class ProductOrderServiceImpl  implements ProductOrderService {
     public ProductOrder save(int userId, int productId) {
         //Object obj=restTemplate.getForObject("http://product-service/api/v1/product/findById?id="+productId,Object.class);
         //System.out.println("Data-From-ribbon"+obj);
+
+        logger.info("save - order ");
 
         String str = productClient.findById(productId);
 
